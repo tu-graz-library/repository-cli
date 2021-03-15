@@ -35,3 +35,6 @@ recursive-include docs Makefile
 
 # added by check-manifest
 recursive-include repository_cli *.py
+
+# added by check-manifest
+recursive-include tests *.py
