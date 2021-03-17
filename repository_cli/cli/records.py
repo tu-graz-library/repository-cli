@@ -37,6 +37,7 @@ records.add_command(identifiers)
 @option_pid
 @with_appcontext
 def list_identifiers(pid):
+    """List record's identifiers."""
     identity = get_identity()
     service = current_rdm_records.records_service
     record_data = service.read(id_=pid, identity=identity).data.copy()
@@ -52,7 +53,7 @@ def list_identifiers(pid):
 @option_pid
 @with_appcontext
 def add_identifier(identifier, pid):
-    """Update the specified records identifiers."""
+    """Update the specified record's identifiers."""
     identifier = json.loads(identifier)
     if type(identifier) is not dict:
         click.secho(f"identifier should be of type dictionary", fg="red")
@@ -64,10 +65,10 @@ def add_identifier(identifier, pid):
     # get current draft or create new one
     record_data = service.edit(id_=pid, identity=identity).data.copy()
     current_identifiers = record_data["metadata"].get("identifiers", [])
-    current_schemes = [identifier["scheme"] for identifier in current_identifiers]
+    current_schemes = [_["scheme"] for _ in current_identifiers]
     scheme = identifier["scheme"]
     if scheme in current_schemes:
-        click.secho(f"schema '{scheme}' already in identifiers", fg="red")
+        click.secho(f"scheme '{scheme}' already in identifiers", fg="red")
         return
 
     current_identifiers.append(identifier)
@@ -89,7 +90,7 @@ def add_identifier(identifier, pid):
 @option_pid
 @with_appcontext
 def replace_identifier(identifier, pid):
-    """Update the specified records identifiers."""
+    """Update the specified record's identifiers."""
     identifier = json.loads(identifier)
     if type(identifier) is not dict:
         click.secho(f"identifier should be of type dictionary", fg="red")

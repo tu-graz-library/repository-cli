@@ -33,11 +33,17 @@ setup_requires = [
     "Babel>=2.8",
 ]
 
+# Should follow inveniosoftware/invenio versions
+invenio_search_version = ">=1.4.0"
+invenio_db_version = ">=1.0.5,<2.0.0"
+
 install_requires = [
     "click>=7.1.1,<8.0",
     "invenio-access>=1.4.2",
     "invenio-accounts>=1.4.0",
     "invenio_rdm_records>=0.26.6",
+    f"invenio-search[elasticsearch7]{invenio_search_version}",
+    f"invenio-db[postgresql,versioning]{invenio_db_version}",
 ]
 
 packages = find_packages()
