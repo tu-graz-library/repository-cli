@@ -16,9 +16,18 @@ history = open("CHANGES.rst").read()
 
 tests_require = [
     "pytest-invenio>=1.4.0",
+    "invenio-app>=1.3.0,<2.0.0",
 ]
 
+# Should follow inveniosoftware/invenio versions
+invenio_search_version = ">=1.4.0,<2.0.0"
+invenio_db_version = ">=1.0.5,<2.0.0"
+
 extras_require = {
+    "elasticsearch7": [f"invenio-search[elasticsearch7]{invenio_search_version}"],
+    "mysql": [f"invenio-db[mysql,versioning]{invenio_db_version}"],
+    "postgresql": [f"invenio-db[postgresql,versioning]{invenio_db_version}"],
+    "sqlite": [f"invenio-db[versioning]{invenio_db_version}"],
     "docs": [
         "Sphinx>=3",
     ],
@@ -26,24 +35,30 @@ extras_require = {
 }
 
 extras_require["all"] = []
-for reqs in extras_require.values():
+for name, reqs in extras_require.items():
+    if name[0] == ":" or name in (
+        "elasticsearch7",
+        "mysql",
+        "postgresql",
+        "sqlite",
+    ):
+        continue
     extras_require["all"].extend(reqs)
+
 
 setup_requires = [
     "Babel>=2.8",
 ]
 
 # Should follow inveniosoftware/invenio versions
-invenio_search_version = ">=1.4.0"
-invenio_db_version = ">=1.0.5,<2.0.0"
+invenio_db_version = ">=1.0.4,<2.0.0"
+invenio_search_version = ">=1.4.0,<2.0.0"
 
 install_requires = [
     "click>=7.1.1,<8.0",
     "invenio-access>=1.4.2",
     "invenio-accounts>=1.4.0",
     "invenio_rdm_records>=0.26.6",
-    f"invenio-search[elasticsearch7]{invenio_search_version}",
-    f"invenio-db[postgresql,versioning]{invenio_db_version}",
 ]
 
 packages = find_packages()
