@@ -7,12 +7,16 @@
 
 """Commonly used utility functions."""
 
-from flask_principal import Identity
+from flask_principal import Identity, RoleNeed
 from invenio_access.permissions import any_user, system_process
+from invenio_accounts import current_accounts
+from invenio_admin.permissions import action_admin_access
+
+
 from invenio_rdm_records.proxies import current_rdm_records
 
 
-def get_identity(permission_name="any_user"):
+def get_identity(permission_name="any_user", role_name=None):
     """Get an identity to perform tasks.
 
     Default is "any_user"
@@ -22,7 +26,14 @@ def get_identity(permission_name="any_user"):
     if permission_name == "system_process":
         permission = system_process
 
-    identity.provides.add(permission)  # system_process permissions
+    if role_name:
+        role = current_accounts.datastore.find_role(role_name)
+        if role:
+            identity.provides.add(RoleNeed(role_name))
+        else:
+            raise Exception(f"Role {role_name} does not exist")
+
+    identity.provides.add(permission)
     return identity
 
 

@@ -13,6 +13,7 @@ import click
 from flask.cli import with_appcontext
 from flask_principal import Identity
 from invenio_rdm_records.records.models import RDMRecordMetadata
+from invenio_records import Record
 
 from .click_options import option_identifier, option_pid
 from .util import get_draft, get_identity, get_records_service, update_record
@@ -38,13 +39,25 @@ def list_records():
         click.secho(json.dumps(metadata.data, indent=2), fg=fg)
 
 
-@click.group()
+@records.command("delete")
+@option_pid
+@with_appcontext
+def delete_record(pid):
+    """Delete record.
+
+    example call:
+        invenio repository records delete -p "fcze8-4vx33"
+    """
+    identity = get_identity(permission_name="system_process", role_name="admin")
+    service = get_records_service()
+    service.delete(id_=pid, identity=identity)
+    click.secho(f"{pid}", fg="green")
+
+
+@records.group()
 def identifiers():
     """Management commands for record identifiers."""
     pass
-
-
-records.add_command(identifiers)
 
 
 @identifiers.command("list")
