@@ -9,6 +9,7 @@
 
 import click
 
+# -i '{ "identifier": "10.48436/fcze8-4vx33", "scheme": "doi"}'
 option_identifier = click.option(
     "--identifier",
     "-i",
@@ -16,6 +17,7 @@ option_identifier = click.option(
     help="metadata identifier as JSON",
 )
 
+# -p "fcze8-4vx33"
 option_pid = click.option(
     "--pid",
     "-p",
@@ -23,6 +25,3 @@ option_pid = click.option(
     required=True,
     help="persistent identifier of the object to operate on",
 )
-
-# invenio repository records identifiers list -p "fcze8-4vx33"
-# invenio repository records identifiers add -p "fcze8-4vx33" -i "data"

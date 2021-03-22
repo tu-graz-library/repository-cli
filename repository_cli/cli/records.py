@@ -33,6 +33,7 @@ def identifiers():
 records.add_command(identifiers)
 
 
+# invenio repository records identifiers list
 @identifiers.command("list")
 @option_pid
 @with_appcontext
@@ -42,12 +43,18 @@ def list_identifiers(pid):
     service = current_rdm_records.records_service
     record_data = service.read(id_=pid, identity=identity).data.copy()
     current_identifiers = record_data["metadata"].get("identifiers", [])
+
+    if len(current_identifiers) == 0:
+        fg = "yellow"
+        click.secho("record does not have any identifiers", fg=fg)
+
     for index, identifier in enumerate(current_identifiers):
         # BLACK, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, RESET
-        fg = "yellow" if index % 2 == 0 else "cyan"
+        fg = "blue" if index % 2 == 0 else "cyan"
         click.secho(json.dumps(identifier, indent=2), fg=fg)
 
 
+# invenio repository records identifiers add -p "fcze8-4vx33" -i '{ "identifier": "10.48436/fcze8-4vx33", "scheme": "doi"}'
 @identifiers.command("add")
 @option_identifier
 @option_pid
@@ -85,6 +92,7 @@ def add_identifier(identifier, pid):
     return
 
 
+# invenio repository records identifiers replace -p "fcze8-4vx33" -i '{ "identifier": "10.48436/fcze8-4vx33", "scheme": "doi"}'
 @identifiers.command("replace")
 @option_identifier
 @option_pid
@@ -125,7 +133,3 @@ def replace_identifier(identifier, pid):
         click.secho(f"{pid}, {e}", fg="red")
 
     return
-
-
-# invenio repository records identifiers list -p "fcze8-4vx33"11:20
-# invenio repository records identifiers add -p "fcze8-4vx33" -i "data"
