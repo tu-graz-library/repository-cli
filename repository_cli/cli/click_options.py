@@ -24,5 +24,5 @@ option_pid = click.option(
     help="persistent identifier of the object to operate on",
 )
 
-# invenio repository records identifiers list -p "fcze8-4vx33"11:20
+# invenio repository records identifiers list -p "fcze8-4vx33"
 # invenio repository records identifiers add -p "fcze8-4vx33" -i "data"
