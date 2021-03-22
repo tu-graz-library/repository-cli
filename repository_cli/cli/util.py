@@ -11,8 +11,6 @@ from flask_principal import Identity, RoleNeed
 from invenio_access.permissions import any_user, system_process
 from invenio_accounts import current_accounts
 from invenio_admin.permissions import action_admin_access
-
-
 from invenio_rdm_records.proxies import current_rdm_records
 
 
@@ -43,16 +41,16 @@ def get_draft(pid, identity):
     None will be returned if there is no draft.
     """
     service = get_records_service()
-    draft = None
     try:
         draft = service.read_draft(id_=pid, identity=identity)
-    except:
+    except Exception:
         pass
 
     return draft
 
 
 def get_records_service():
+    """Get records service."""
     return current_rdm_records.records_service
 
 

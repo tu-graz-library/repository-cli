@@ -48,7 +48,9 @@ def delete_record(pid):
     example call:
         invenio repository records delete -p "fcze8-4vx33"
     """
-    identity = get_identity(permission_name="system_process", role_name="admin")
+    identity = get_identity(
+        permission_name="system_process", role_name="admin"
+    )
     service = get_records_service()
     service.delete(id_=pid, identity=identity)
     click.secho(f"{pid}", fg="green")
