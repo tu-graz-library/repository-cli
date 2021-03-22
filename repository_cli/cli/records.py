@@ -33,12 +33,15 @@ def identifiers():
 records.add_command(identifiers)
 
 
-# invenio repository records identifiers list
 @identifiers.command("list")
 @option_pid
 @with_appcontext
 def list_identifiers(pid):
-    """List record's identifiers."""
+    """List record's identifiers.
+
+    example call:
+        invenio repository records identifiers list
+    """
     identity = get_identity()
     service = current_rdm_records.records_service
     record_data = service.read(id_=pid, identity=identity).data.copy()
@@ -54,13 +57,17 @@ def list_identifiers(pid):
         click.secho(json.dumps(identifier, indent=2), fg=fg)
 
 
-# invenio repository records identifiers add -p "fcze8-4vx33" -i '{ "identifier": "10.48436/fcze8-4vx33", "scheme": "doi"}'
 @identifiers.command("add")
 @option_identifier
 @option_pid
 @with_appcontext
 def add_identifier(identifier, pid):
-    """Update the specified record's identifiers."""
+    """Update the specified record's identifiers.
+
+    example call:
+        invenio repository records identifiers add -p "fcze8-4vx33"
+        -i '{ "identifier": "10.48436/fcze8-4vx33", "scheme": "doi"}'
+    """
     identifier = json.loads(identifier)
     if type(identifier) is not dict:
         click.secho(f"identifier should be of type dictionary", fg="red")
@@ -92,13 +99,17 @@ def add_identifier(identifier, pid):
     return
 
 
-# invenio repository records identifiers replace -p "fcze8-4vx33" -i '{ "identifier": "10.48436/fcze8-4vx33", "scheme": "doi"}'
 @identifiers.command("replace")
 @option_identifier
 @option_pid
 @with_appcontext
 def replace_identifier(identifier, pid):
-    """Update the specified record's identifiers."""
+    """Update the specified record's identifiers.
+
+    example call:
+        invenio repository records identifiers add -p "fcze8-4vx33"
+        -i '{ "identifier": "10.48436/fcze8-4vx33", "scheme": "doi"}'
+    """
     identifier = json.loads(identifier)
     if type(identifier) is not dict:
         click.secho(f"identifier should be of type dictionary", fg="red")
