@@ -9,6 +9,7 @@
 
 from flask_principal import Identity
 from invenio_access.permissions import any_user, system_process
+from invenio_rdm_records.proxies import current_rdm_records
 
 
 def get_identity(permission_name="any_user"):
@@ -23,3 +24,43 @@ def get_identity(permission_name="any_user"):
 
     identity.provides.add(permission)  # system_process permissions
     return identity
+
+
+def get_draft(pid, identity):
+    """Get current draft of record.
+
+    None will be returned if there is no draft.
+    """
+    service = get_records_service()
+    draft = None
+    try:
+        draft = service.read_draft(id_=pid, identity=identity)
+    except:
+        pass
+
+    return draft
+
+
+def get_records_service():
+    return current_rdm_records.records_service
+
+
+def update_record(pid, identity, should_publish, new_data, old_data):
+    """Update record with new data.
+
+    If it was published before, it should be published again.
+    If it had a draft, it should not be published.
+    If an error occurs, revert record to previous state.
+
+    """
+    service = get_records_service()
+    try:
+        service.update_draft(id_=pid, identity=identity, data=new_data)
+        if should_publish:
+            service.publish(id_=pid, identity=identity)
+    except Exception as e:
+        if should_publish:
+            service.delete_draft(id_=pid, identity=identity)
+        else:
+            service.update_draft(id_=pid, identity=identity, data=old_data)
+        raise e
