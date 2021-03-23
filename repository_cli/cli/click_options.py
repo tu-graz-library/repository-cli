@@ -25,3 +25,25 @@ option_pid = click.option(
     required=True,
     help="persistent identifier of the object to operate on",
 )
+
+# -if "input.json"
+option_input_file = click.option(
+    "--input-file",
+    "-input",
+    "input_file",
+    metavar="string",
+    required=False,
+    help="name of file to read from",
+    type=click.File("r"),
+)
+
+# -of "output.json"
+option_output_file = click.option(
+    "--output-file",
+    "-of",
+    "output_file",
+    metavar="string",
+    required=False,
+    help="name of file to write to",
+    type=click.File("w"),
+)

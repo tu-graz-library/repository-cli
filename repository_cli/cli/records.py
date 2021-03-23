@@ -15,7 +15,12 @@ from flask_principal import Identity
 from invenio_rdm_records.records.models import RDMRecordMetadata
 from invenio_records import Record
 
-from .click_options import option_identifier, option_pid
+from .click_options import (
+    option_identifier,
+    option_input_file,
+    option_output_file,
+    option_pid,
+)
 from .util import get_draft, get_identity, get_records_service, update_record
 
 
@@ -26,17 +31,54 @@ def records():
 
 
 @records.command("list")
+@option_output_file
 @with_appcontext
-def list_records():
+def list_records(output_file):
     """List record's.
 
     example call:
-        invenio repository records list
+        invenio repository records list [-of out.json]
     """
     records = RDMRecordMetadata.query
+    if output_file:
+        output_file.write("[")
+
+    num_records = records.count()
+
     for index, metadata in enumerate(records):
-        fg = "blue" if index % 2 == 0 else "cyan"
-        click.secho(json.dumps(metadata.data, indent=2), fg=fg)
+        if output_file:
+            json.dump(metadata.json, output_file, indent=2)
+            if index < (num_records - 1):
+                output_file.write(",\n")
+        else:
+            fg = "blue" if index % 2 == 0 else "cyan"
+            click.secho(json.dumps(metadata.json, indent=2), fg=fg)
+
+    if output_file:
+        output_file
+        output_file.write("]")
+
+
+# @records.command("update")
+# @option_input_file
+# @with_appcontext
+# def update_records(input_file):
+#     """List record's.
+
+#     example call:
+#         invenio repository records list [-of out.json]
+#     """
+
+#     print(input_file)
+#     records = json.load(input_file)
+
+#     records = RDMRecordMetadata.query
+#     len(records)
+#     if input_file:
+#         input_file.write("[")
+
+#     if output_file:
+#         output_file.write("]")
 
 
 @records.command("delete")
