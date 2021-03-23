@@ -15,12 +15,8 @@ from flask_principal import Identity
 from invenio_rdm_records.records.models import RDMRecordMetadata
 from invenio_records import Record
 
-from .click_options import (
-    option_identifier,
-    option_input_file,
-    option_output_file,
-    option_pid,
-)
+from .click_options import (option_identifier, option_input_file,
+                            option_output_file, option_pid)
 from .util import get_draft, get_identity, get_records_service
 
 
