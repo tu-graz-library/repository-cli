@@ -55,7 +55,6 @@ def list_records(output_file):
             click.secho(json.dumps(metadata.json, indent=2), fg=fg)
 
     if output_file:
-        output_file
         output_file.write("]")
 
 
