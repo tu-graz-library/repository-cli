@@ -43,7 +43,6 @@ def get_draft(pid, identity):
     service = get_records_service()
     # check if record exists
     service.read(id_=pid, identity=identity)
-
     draft = None
     try:
         draft = service.read_draft(id_=pid, identity=identity)

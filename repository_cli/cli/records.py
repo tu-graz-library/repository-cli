@@ -21,7 +21,7 @@ from .click_options import (
     option_output_file,
     option_pid,
 )
-from .util import get_draft, get_identity, get_records_service, update_record
+from .util import get_draft, get_identity, get_records_service
 
 
 @click.group()
@@ -31,7 +31,7 @@ def records():
 
 
 @records.command("list")
-@option_output_file
+@option_output_file()
 @with_appcontext
 def list_records(output_file):
     """List record's.
@@ -39,12 +39,14 @@ def list_records(output_file):
     example call:
         invenio repository records list [-of out.json]
     """
-    records = RDMRecordMetadata.query
+    records = RDMRecordMetadata.query.filter_by(is_deleted=False)
     if output_file:
         output_file.write("[")
 
     num_records = records.count()
 
+    # rather iterate and write one record at time instead of converting to list
+    # (might take up much memory)
     for index, metadata in enumerate(records):
         if output_file:
             json.dump(metadata.json, output_file, indent=2)
@@ -57,31 +59,35 @@ def list_records(output_file):
     if output_file:
         output_file.write("]")
 
+    click.secho(
+        f"wrote {num_records} records to {output_file.name}", fg="green"
+    )
 
-# @records.command("update")
-# @option_input_file
-# @with_appcontext
-# def update_records(input_file):
-#     """List record's.
 
-#     example call:
-#         invenio repository records list [-of out.json]
-#     """
+@records.command("update")
+@option_input_file(required=True)
+@with_appcontext
+def update_records(input_file):
+    """Update records specified in input file.
 
-#     print(input_file)
-#     records = json.load(input_file)
+    example call:
+        invenio repository records update -in in.json
+    """
+    records = json.load(input_file)
+    identity = get_identity(
+        permission_name="system_process", role_name="admin"
+    )
+    service = get_records_service()
 
-#     records = RDMRecordMetadata.query
-#     len(records)
-#     if input_file:
-#         input_file.write("[")
-
-#     if output_file:
-#         output_file.write("]")
+    for record in records:
+        pid = record["id"]
+        click.secho(f"'{pid}', trying to update", fg="yellow")
+        service.update(id_=pid, identity=identity, data=record)
+        click.secho(f"'{pid}', successfully updated", fg="green")
 
 
 @records.command("delete")
-@option_pid
+@option_pid(required=True)
 @with_appcontext
 def delete_record(pid):
     """Delete record.
@@ -104,7 +110,7 @@ def identifiers():
 
 
 @identifiers.command("list")
-@option_pid
+@option_pid(required=option_pid)
 @with_appcontext
 def list_identifiers(pid):
     """List record's identifiers.
@@ -128,8 +134,8 @@ def list_identifiers(pid):
 
 
 @identifiers.command("add")
-@option_identifier
-@option_pid
+@option_identifier(required=True)
+@option_pid(required=True)
 @with_appcontext
 def add_identifier(identifier, pid):
     """Update the specified record's identifiers.
@@ -143,47 +149,27 @@ def add_identifier(identifier, pid):
         click.secho(f"identifier should be of type dictionary", fg="red")
         return
 
-    identity = get_identity("system_process")
+    identity = get_identity("system_process", role_name="admin")
     service = get_records_service()
+    record_data = service.read(id_=pid, identity=identity).data.copy()
 
-    # get current draft or create new one
-    draft = get_draft(pid, identity)
-    should_publish = False
-    if draft is None:
-        should_publish = True
-        draft = service.edit(id_=pid, identity=identity)
-
-    record_data = draft.data.copy()
     current_identifiers = record_data["metadata"].get("identifiers", [])
     current_schemes = [_["scheme"] for _ in current_identifiers]
     scheme = identifier["scheme"]
     if scheme in current_schemes:
-        if should_publish:
-            service.delete_draft(id_=pid, identity=identity)
         click.secho(f"scheme '{scheme}' already in identifiers", fg="red")
         return
 
     current_identifiers.append(identifier)
     record_data["metadata"]["identifiers"] = current_identifiers
-
-    try:
-        update_record(
-            pid=pid,
-            identity=identity,
-            should_publish=should_publish,
-            new_data=record_data,
-            old_data=draft.data,
-        )
-        click.secho(pid, fg="green")
-    except Exception as e:
-        click.secho(f"{pid}, {e}", fg="red")
-
+    service.update(id_=pid, identity=identity, data=record_data)
+    click.secho(pid, fg="green")
     return
 
 
 @identifiers.command("replace")
-@option_identifier
-@option_pid
+@option_identifier(required=True)
+@option_pid(required=True)
 @with_appcontext
 def replace_identifier(identifier, pid):
     """Update the specified record's identifiers.
@@ -197,17 +183,9 @@ def replace_identifier(identifier, pid):
         click.secho(f"identifier should be of type dictionary", fg="red")
         return
 
-    identity = get_identity("system_process")
+    identity = get_identity("system_process", role_name="admin")
     service = get_records_service()
-
-    # get current draft or create new one
-    draft = get_draft(pid, identity)
-    should_publish = False
-    if draft is None:
-        should_publish = True
-        draft = service.edit(id_=pid, identity=identity)
-
-    record_data = draft.data.copy()
+    record_data = service.read(id_=pid, identity=identity).data.copy()
     current_identifiers = record_data["metadata"].get("identifiers", [])
     scheme = identifier["scheme"]
     replaced = False
@@ -218,21 +196,9 @@ def replace_identifier(identifier, pid):
             break
 
     if not replaced:
-        if should_publish:
-            service.delete_draft(id_=pid, identity=identity)
         click.secho(f"scheme '{scheme}' not in identifiers", fg="red")
         return
 
     record_data["metadata"]["identifiers"] = current_identifiers
-
-    try:
-        update_record(
-            pid=pid,
-            identity=identity,
-            should_publish=should_publish,
-            new_data=record_data,
-            old_data=draft.data,
-        )
-        click.secho(pid, fg="green")
-    except Exception as e:
-        click.secho(f"{pid}, {e}", fg="red")
+    service.update(id_=pid, identity=identity, data=record_data)
+    click.secho(pid, fg="green")
