@@ -33,12 +33,12 @@ def option_pid(required=False):
     )
 
 
-# -if "input.json"
+# --if "input.json"
 def option_input_file(required=False):
     """Get parameter options for input file."""
     return click.option(
         "--input-file",
-        "-if",
+        "--if",
         "input_file",
         metavar="string",
         required=required,
@@ -47,12 +47,12 @@ def option_input_file(required=False):
     )
 
 
-# -of "output.json"
+# --of "output.json"
 def option_output_file(required=False):
     """Get parameter options for output file."""
     return click.option(
         "--output-file",
-        "-of",
+        "--of",
         "output_file",
         metavar="string",
         required=required,
