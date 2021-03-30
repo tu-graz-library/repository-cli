@@ -60,7 +60,7 @@ install_requires = [
     "click>=7.1.1,<8.0",
     "invenio-access>=1.4.2",
     "invenio-accounts>=1.4.0",
-    "invenio_rdm_records>0.28.0,<0.29.0",
+    "invenio_rdm_records>=0.28.0,<0.29.0",
 ]
 
 packages = find_packages()
