@@ -337,3 +337,12 @@ intersphinx_mapping = {
 
 # Autodoc configuraton.
 autoclass_content = "both"
+
+
+# Ignore pydoc errors for not found types
+# see https://www.sphinx-doc.org/en/master/usage/configuration.html?highlight=nitpick#confval-nitpick_ignore
+nitpick_ignore = [
+    ("py:class", "flask_principal.Identity"),
+    ("py:class", "invenio_drafts_resources.records.api.Draft"),
+    ("py:class", "invenio_rdm_records.services.services.RDMRecordService"),
+]

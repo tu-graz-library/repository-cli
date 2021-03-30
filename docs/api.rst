@@ -11,8 +11,11 @@ API Docs
 .. automodule:: repository_cli.ext
     :members:
 
+CLI Commands
+------------
+
 Records
--------
+~~~~~~~
 
 .. automodule:: repository_cli.cli.records
     :members:
@@ -22,10 +25,18 @@ Records
 .. autofunction:: repository_cli.cli.records.delete_record
 
 Identifiers
------------
-
+~~~~~~~~~~~
 
 .. automodule:: repository_cli.cli.records.identifiers
+    :members:
+
 .. autofunction:: repository_cli.cli.records.list_identifiers
 .. autofunction:: repository_cli.cli.records.add_identifier
 .. autofunction:: repository_cli.cli.records.replace_identifier
+
+
+Utility functions
+------------------
+
+.. automodule:: repository_cli.cli.util
+    :members:
