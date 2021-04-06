@@ -81,11 +81,20 @@ def update_records(input_file: TextIO):
 
     for record in records:
         pid = record["id"]
-        click.secho(f"'{pid}', trying to update", fg="yellow")
+        click.secho(f"\n'{pid}', trying to update", fg="yellow")
         if not record_exists(pid):
             click.secho(f"'{pid}', does not exist or is deleted", fg="red")
             continue
-        service.update(id_=pid, identity=identity, data=record)
+
+        old_data = service.read(id_=pid, identity=identity).data.copy()
+        try:
+            update_record(
+                pid=pid, identity=identity, new_data=record, old_data=old_data
+            )
+        except Exception as e:
+            click.secho(f"'{pid}', problem during update, {e}", fg="red")
+            continue
+
         click.secho(f"'{pid}', successfully updated", fg="green")
 
 
@@ -184,7 +193,7 @@ def add_identifier(identifier: map, pid: str):
             pid=pid, identity=identity, new_data=record_data, old_data=old_data
         )
     except Exception as e:
-        click.secho(pid, fg="red")
+        click.secho(f"'{pid}', problem during update, {e}", fg="red")
         return
 
     click.secho(pid, fg="green")
@@ -235,7 +244,7 @@ def replace_identifier(identifier: map, pid: str):
             pid=pid, identity=identity, new_data=record_data, old_data=old_data
         )
     except Exception as e:
-        click.secho(pid, fg="red")
+        click.secho(f"'{pid}', problem during update, {e}", fg="red")
         return
 
     click.secho(pid, fg="green")
