@@ -18,7 +18,8 @@ from invenio_records import Record
 
 from .click_options import (option_identifier, option_input_file,
                             option_output_file, option_pid)
-from .util import get_draft, get_identity, get_records_service, record_exists
+from .util import (get_draft, get_identity, get_records_service, record_exists,
+                   update_record)
 
 
 @click.group()
@@ -174,9 +175,18 @@ def add_identifier(identifier: map, pid: str):
         click.secho(f"scheme '{scheme}' already in identifiers", fg="red")
         return
 
+    old_data = record_data.copy()
     current_identifiers.append(identifier)
     record_data["metadata"]["identifiers"] = current_identifiers
-    service.update(id_=pid, identity=identity, data=record_data)
+
+    try:
+        update_record(
+            pid=pid, identity=identity, new_data=record_data, old_data=old_data
+        )
+    except Exception as e:
+        click.secho(pid, fg="red")
+        return
+
     click.secho(pid, fg="green")
     return
 
@@ -217,6 +227,15 @@ def replace_identifier(identifier: map, pid: str):
         click.secho(f"scheme '{scheme}' not in identifiers", fg="red")
         return
 
+    old_data = record_data.copy()
     record_data["metadata"]["identifiers"] = current_identifiers
-    service.update(id_=pid, identity=identity, data=record_data)
+
+    try:
+        update_record(
+            pid=pid, identity=identity, new_data=record_data, old_data=old_data
+        )
+    except Exception as e:
+        click.secho(pid, fg="red")
+        return
+
     click.secho(pid, fg="green")
