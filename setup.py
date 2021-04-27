@@ -32,6 +32,7 @@ extras_require = {
     "sqlite": [f"invenio-db[versioning]{invenio_db_version}"],
     "docs": [
         "Sphinx>=3",
+        "sphinx-click>=2.5.0"
     ],
     "tests": tests_require,
 }
