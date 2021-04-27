@@ -59,7 +59,8 @@ install_requires = [
     "invenio-accounts>=1.4.0",
     "invenio_rdm_records>=0.28.0,<0.29.0",
     "elasticsearch>=7.0.0,<8.0.0",
-    "elasticsearch_dsl>=7.2.1"
+    "elasticsearch_dsl>=7.2.1",
+    "SQLAlchemy-Continuum>=1.3.11",
 ]
 
 packages = find_packages()
