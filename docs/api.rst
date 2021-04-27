@@ -18,7 +18,7 @@ Records
 ~~~~~~~
 
 .. automodule:: repository_cli.cli.records
-    :members:
+   :members:
 
 .. autofunction:: repository_cli.cli.records.list_records
 .. autofunction:: repository_cli.cli.records.update_records
@@ -28,7 +28,7 @@ Identifiers
 ~~~~~~~~~~~
 
 .. automodule:: repository_cli.cli.records.identifiers
-    :members:
+   :members:
 
 .. autofunction:: repository_cli.cli.records.list_identifiers
 .. autofunction:: repository_cli.cli.records.add_identifier
@@ -39,4 +39,4 @@ Utility functions
 ------------------
 
 .. automodule:: repository_cli.cli.util
-    :members:
+   :members:
