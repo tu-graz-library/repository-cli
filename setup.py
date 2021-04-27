@@ -61,6 +61,8 @@ install_requires = [
     "elasticsearch>=7.0.0,<8.0.0",
     "elasticsearch_dsl>=7.2.1",
     "SQLAlchemy-Continuum>=1.3.11",
+    "invenio_search>=1.4.0,<2.0.0",
+    "psycopg2-binary>=2.8.6",
 ]
 
 packages = find_packages()
