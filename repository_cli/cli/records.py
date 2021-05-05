@@ -170,7 +170,7 @@ def list_pids(pid: str):
 @option_pid(required=True)
 @option_pid_identifier(required=True)
 @with_appcontext
-def update_pids(pid: str, pid_identifier: str):
+def replace_pid(pid: str, pid_identifier: str):
     """Update pid doi to unmanaged.
 
     example call:
