@@ -26,7 +26,6 @@ from .util import (get_draft, get_identity, get_records_service, record_exists,
 @click.group()
 def rdmrecords():
     """Management commands for records."""
-    pass
 
 
 @rdmrecords.command("count")
@@ -87,7 +86,12 @@ def update_records(input_file: TextIO):
     example call:
         invenio repository rdmrecords update --if in.json
     """
-    records = json.load(input_file)
+    try:
+        records = json.load(input_file)
+    except Exception:
+        click.secho(f"file content should be of type dictionary", fg="red")
+        return
+
     identity = get_identity(
         permission_name="system_process", role_name="admin"
     )
@@ -175,12 +179,12 @@ def replace_pid(pid: str, pid_identifier: str):
 
     example call:
         invenio repository rdmrecords pids replace -p "fcze8-4vx33"
-        --pid-identifier ' { "doi":
-            { "identifier": "10.48436/fcze8-4vx33", "provider": "unmanaged" }
-        }'
+        --pid-identifier ' { "doi": {
+            "identifier": "10.48436/fcze8-4vx33", "provider": "unmanaged" }}'
     """
-    pid_identifier = json.loads(pid_identifier)
-    if type(pid_identifier) is not dict:
+    try:
+        pid_identifier = json.loads(pid_identifier)
+    except Exception:
         click.secho(f"pid_identifier should be of type dictionary", fg="red")
         return
 
@@ -262,8 +266,9 @@ def add_identifier(identifier: map, pid: str):
         invenio repository rdmrecords identifiers add -p "fcze8-4vx33"
         -i '{ "identifier": "10.48436/fcze8-4vx33", "scheme": "doi"}'
     """
-    identifier = json.loads(identifier)
-    if type(identifier) is not dict:
+    try:
+        identifier = json.loads(identifier)
+    except Exception:
         click.secho(f"identifier should be of type dictionary", fg="red")
         return
 
@@ -294,7 +299,7 @@ def add_identifier(identifier: map, pid: str):
         click.secho(f"'{pid}', Error during update, {e}", fg="red")
         return
 
-    click.secho(f"Identifier for '{pid}'' added.", fg="green")
+    click.secho(f"Identifier for '{pid}' added.", fg="green")
     return
 
 
@@ -309,8 +314,9 @@ def replace_identifier(identifier: map, pid: str):
         invenio repository rdmrecords identifiers replace -p "fcze8-4vx33"
         -i '{ "identifier": "10.48436/fcze8-4vx33", "scheme": "doi"}'
     """
-    identifier = json.loads(identifier)
-    if type(identifier) is not dict:
+    try:
+        identifier = json.loads(identifier)
+    except Exception:
         click.secho(f"identifier should be of type dictionary", fg="red")
         return
 
@@ -345,4 +351,4 @@ def replace_identifier(identifier: map, pid: str):
         click.secho(f"'{pid}', problem during update, {e}", fg="red")
         return
 
-    click.secho(pid, fg="green")
+    click.secho(f"Identifier for '{pid}' replaced.", fg="green")
