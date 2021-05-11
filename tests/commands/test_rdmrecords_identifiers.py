@@ -78,7 +78,7 @@ def test_add_identifier_wrong_identifier_type(app_initialized):
         add_identifier, ["--pid", r_id, "--identifier", "this is not a dict"]
     )
     assert response.exit_code == 0
-    assert "identifier should be of type dictionary" in response.output
+    assert "identifier is not valid JSON" in response.output
 
 
 def test_add_identifiers_record_not_found(app_initialized, identifier):
@@ -128,7 +128,7 @@ def test_replace_identifier_wrong_identifier_type(app_initialized):
         ["--pid", r_id, "--identifier", "this is not a dict"],
     )
     assert response.exit_code == 0
-    assert "identifier should be of type dictionary" in response.output
+    assert "identifier is not valid JSON" in response.output
 
 
 def test_replace_identifiers_record_not_found(app_initialized, identifier):

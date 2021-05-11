@@ -73,7 +73,7 @@ def test_replace_pid_wrong_identifier_type(app_initialized):
         replace_pid, ["--pid", r_id, "--pid-identifier", "this is not a dict"]
     )
     assert response.exit_code == 0
-    assert "pid_identifier should be of type dictionary" in response.output
+    assert "pid_identifier is not valid JSON" in response.output
 
 
 def test_replace_pid_record_not_found(app_initialized, pid_identifier):

@@ -88,8 +88,9 @@ def update_records(input_file: TextIO):
     """
     try:
         records = json.load(input_file)
-    except Exception:
-        click.secho(f"file content should be of type dictionary", fg="red")
+    except Exception as e:
+        click.secho(e.msg, fg="red")
+        click.secho(f"The input file is not a valid JSON File", fg="red")
         return
 
     identity = get_identity(
@@ -184,8 +185,9 @@ def replace_pid(pid: str, pid_identifier: str):
     """
     try:
         pid_identifier = json.loads(pid_identifier)
-    except Exception:
-        click.secho(f"pid_identifier should be of type dictionary", fg="red")
+    except Exception as e:
+        click.secho(e.msg, fg="red")
+        click.secho(f"pid_identifier is not valid JSON", fg="red")
         return
 
     if not record_exists(pid):
@@ -268,8 +270,9 @@ def add_identifier(identifier: map, pid: str):
     """
     try:
         identifier = json.loads(identifier)
-    except Exception:
-        click.secho(f"identifier should be of type dictionary", fg="red")
+    except Exception as e:
+        click.secho(e.msg, fg="red")
+        click.secho(f"identifier is not valid JSON", fg="red")
         return
 
     if not record_exists(pid):
@@ -316,8 +319,9 @@ def replace_identifier(identifier: map, pid: str):
     """
     try:
         identifier = json.loads(identifier)
-    except Exception:
-        click.secho(f"identifier should be of type dictionary", fg="red")
+    except Exception as e:
+        click.secho(e.msg, fg="red")
+        click.secho(f"pid_identifier is not valid JSON", fg="red")
         return
 
     if not record_exists(pid):

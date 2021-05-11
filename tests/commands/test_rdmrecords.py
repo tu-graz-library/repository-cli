@@ -96,7 +96,7 @@ def test_update_ill_formatted_file(app_initialized):
     response = runner.invoke(update_records, ["--if", filename])
     os.remove(filename)
     assert response.exit_code == 0
-    assert "file content should be of type dictionary" in response.output
+    assert "The input file is not a valid JSON File" in response.output
 
 
 def test_delete(app_initialized):
