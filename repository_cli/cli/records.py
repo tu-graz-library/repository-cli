@@ -180,7 +180,7 @@ def replace_pid(pid: str, pid_identifier: str):
     example call:
         invenio repository rdmrecords pids replace -p "fcze8-4vx33"
         --pid-identifier ' { "doi": {
-            "identifier": "10.48436/fcze8-4vx33", "provider": "unmanaged" }}'
+        "identifier": "10.48436/fcze8-4vx33", "provider": "unmanaged" }}'
     """
     try:
         pid_identifier = json.loads(pid_identifier)
