@@ -147,7 +147,6 @@ def delete_draft(pid: str):
     example call:
         invenio repository rdmrecords delete-draft -p "fcze8-4vx33"
     """
-    
     if not record_exists(pid):
         click.secho(f"'{pid}', does not exist or is deleted", fg="red")
         return
@@ -155,12 +154,11 @@ def delete_draft(pid: str):
     identity = get_identity(
         permission_name="system_process", role_name="admin"
     )
-    
+
     draft = get_draft(pid=pid, identity=identity)
     if draft is None:
         click.secho(f"'{pid}', does not have a draft", fg="yellow")
         return
-
 
     service = get_records_service()
     service.delete_draft(id_=pid, identity=identity)
