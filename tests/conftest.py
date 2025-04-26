@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2021-2024 Graz University of Technology.
+# Copyright (C) 2021-2025 Graz University of Technology.
 #
 # repository-cli is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -52,6 +52,7 @@ def fixture_app_config(app_config: dict) -> dict:
     )
     app_config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     app_config["DATADIR"] = "data"
+    app_config["THEME_FRONTPAGE"] = False
 
     return app_config
 
