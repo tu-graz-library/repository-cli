@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2021-2024 Graz University of Technology.
+# Copyright (C) 2021-2026 Graz University of Technology.
 #
 # repository-cli is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -345,4 +345,5 @@ nitpick_ignore = [
     ("py:class", "Record"),
     ("py:class", "RecordItem"),
     ("py:class", "celery.local.celery.local"),
+    ("py:class", "invenio_records_resources.services.records.results.RecordItem"),
 ]
