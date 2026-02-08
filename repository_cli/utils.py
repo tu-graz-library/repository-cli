@@ -30,8 +30,7 @@ from invenio_records_lom.services.tasks import (
 )
 from invenio_records_lom.utils.metadata import LOMMetadata
 from invenio_records_marc21 import Marc21Metadata, current_records_marc21
-from invenio_records_marc21.records import DraftMetadata as Marc21DraftMetadata
-from invenio_records_marc21.records import RecordMetadata as Marc21RecordMetadata
+from invenio_records_marc21.records import Marc21DraftMetadata, Marc21RecordMetadata
 from invenio_records_marc21.records.api import Marc21Record
 from invenio_records_marc21.services.pids.tasks import (
     register_or_update_pid as marc21_register_or_update_pid,
