@@ -1,3 +1,34 @@
 [build-system]
 requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+  "D203", "D211", "D212", "D213",
+  "E501",
+  "FA100", "FA102",
+  "FIX002",
+  "INP001",
+  "N999",
+  "PERF203",
+  "PLR0913",
+  "S101",
+  "TD002", "TD003",
+  "TID252",
+  "UP009",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**.py" = [
+  "ANN201",
+]
+
+[tool.mypy]
+extra_checks = true
+strict = true
+strict_bytes = true
+strict_equality = true
+follow_untyped_imports = true
+disallow_any_generics = false
+python_executable = ".venv/bin/python"

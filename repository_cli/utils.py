@@ -1,20 +1,18 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2021-2024 Graz University of Technology.
+# Copyright (C) 2021-2026 Graz University of Technology.
 #
 # repository-cli is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
 
 """Commonly used utility functions."""
-from __future__ import annotations
-
-from contextlib import suppress
-from typing import TYPE_CHECKING
 
 from celery.local import Proxy as CeleryProxy
 from flask_principal import Identity, RoleNeed
 from invenio_access.permissions import any_user, system_process
 from invenio_accounts import current_accounts
+from invenio_db import db
+from invenio_drafts_resources.records.api import Draft, Record
 from invenio_pidstore.errors import PIDUnregistered
 from invenio_rdm_records.proxies import current_rdm_records
 from invenio_rdm_records.records.api import RDMRecord
@@ -35,14 +33,9 @@ from invenio_records_marc21.records.api import Marc21Record
 from invenio_records_marc21.services.pids.tasks import (
     register_or_update_pid as marc21_register_or_update_pid,
 )
-from invenio_records_resources.records import Record
+from invenio_records_resources.services import RecordService
+from invenio_records_resources.services.records.results import RecordItem
 from sqlalchemy.orm.exc import NoResultFound
-
-if TYPE_CHECKING:
-    from invenio_db import db
-    from invenio_drafts_resources.records.api import Draft, Record
-    from invenio_records_resources.services import RecordService
-    from invenio_records_resources.services.records.results import RecordItem
 
 BELOW_CONTROLFIELD = 10
 
@@ -171,7 +164,7 @@ def get_metadata_model(
         raise RuntimeError(msg) from exc
 
 
-def get_metadata_class(data_model: str):
+def get_metadata_class(data_model: str) -> type[db.Model]:
     """Get the metadata class."""
     available_metadata_classes = {
         "lom": LOMMetadata,
