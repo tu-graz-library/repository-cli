@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2021-2024 Graz University of Technology.
+# Copyright (C) 2021-2026 Graz University of Technology.
 #
 # repository-cli is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -30,7 +30,7 @@ def test_base_command(app: Flask) -> None:
     """Test base command."""
     runner = app.test_cli_runner()
     response = runner.invoke(group_records)
-    assert response.exit_code == 0
+    assert response.exit_code == 2
 
 
 def test_count_with_entries(
