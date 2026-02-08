@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2021-2025 Graz University of Technology.
+# Copyright (C) 2021-2026 Graz University of Technology.
 #
 # repository-cli is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -33,6 +33,16 @@ from invenio_vocabularies.records.api import Vocabulary
 from invenio_vocabularies.records.models import VocabularyType
 
 
+@pytest.fixture(scope="module")
+def extra_entry_points() -> dict:
+    """Extra entrypoints."""
+    return {
+        "invenio_base.blueprints": [
+            "invenio_app_rdm_records = tests.mock_module:create_invenio_app_rdm_records_blueprint",
+        ],
+    }
+
+
 @pytest.fixture(scope="module", name="app_config")
 def fixture_app_config(app_config: dict) -> dict:
     """Mimic an instance's configuration."""
@@ -58,7 +68,7 @@ def fixture_app_config(app_config: dict) -> dict:
 
 
 @pytest.fixture(scope="module")
-def create_app() -> Flask:
+def create_app(entry_points: dict) -> Flask:
     """Application factory fixture."""
     return _create_api
 
