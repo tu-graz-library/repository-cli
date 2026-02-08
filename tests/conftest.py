@@ -63,6 +63,9 @@ def fixture_app_config(app_config: dict) -> dict:
     app_config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     app_config["DATADIR"] = "data"
     app_config["THEME_FRONTPAGE"] = False
+    app_config["RDM_FILES_DEFAULT_QUOTA_SIZE"] = 10**10
+    app_config["RDM_FILES_DEFAULT_MAX_FILE_SIZE"] = 10**10
+    app_config["OAISERVER_ID_PREFIX"] = "repo"
 
     return app_config
 
