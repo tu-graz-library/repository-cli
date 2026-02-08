@@ -6,6 +6,7 @@
 # under the terms of the MIT License; see LICENSE file for more details.
 
 """Build database update commands from `metadata_class`\\ es."""
+
 from functools import wraps
 from inspect import Parameter, signature
 from typing import Callable, _UnionGenericAlias

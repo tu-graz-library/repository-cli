@@ -7,7 +7,6 @@
 
 """Commonly used options for CLI commands."""
 
-
 from collections.abc import Callable
 from typing import Any, TypeVar
 

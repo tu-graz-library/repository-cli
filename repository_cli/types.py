@@ -7,7 +7,6 @@
 
 """Types."""
 
-
 from dataclasses import dataclass
 
 
