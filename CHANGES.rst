@@ -1,11 +1,25 @@
 ..
-    Copyright (C) 2021 Graz University of Technology.
+    Copyright (C) 2021-2026 Graz University of Technology.
 
     repository-cli is free software; you can redistribute it and/or modify
     it under the terms of the MIT License; see LICENSE file for more details.
 
 Changes
 =======
+
+Version v0.13.0 (released 2026-02-08)
+
+- chore(black): update formatting to >= 26.0
+- chore(fix): maybe click change
+- chore(fix): deprecation warnings
+- chore(fix): add mock module for link generation
+- fix(docs): nitpick_ignore
+- chore(setup): bump dependencies
+- chore: start with mypy and ruff
+- chore: update records-marc21 dep
+- fix: add configuration for tests
+- setup: add python3.13 support
+- setup: add pyproject.toml
 
 Version v0.12.2 (release 2024-07-19)
 
