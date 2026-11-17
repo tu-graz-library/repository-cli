@@ -1,20 +1,14 @@
-# -*- coding: utf-8 -*-
-#
-# Copyright (C) 2021-2024 Graz University of Technology.
-#
-# repository-cli is free software; you can redistribute it and/or modify it
-# under the terms of the MIT License; see LICENSE file for more details.
+# SPDX-FileCopyrightText: 2021-2026 Graz University of Technology.
+# SPDX-License-Identifier: MIT
 
 """Commonly used options for CLI commands."""
 
 from collections.abc import Callable
-from typing import Any, TypeVar
+from typing import Any
 
 from click import BOOL, STRING, Choice, File, option
 
 from .click_param_types import JSON
-
-T = TypeVar("T")
 
 
 def optional_brackets(func: Callable) -> Callable:
@@ -29,7 +23,7 @@ def optional_brackets(func: Callable) -> Callable:
 
 
 @optional_brackets
-def option_quiet() -> Callable[[T], T]:
+def option_quiet[T]() -> Callable[[T], T]:
     """Get parameter option for quiet."""
     return option(
         "--quiet",
@@ -40,7 +34,7 @@ def option_quiet() -> Callable[[T], T]:
 
 
 @optional_brackets
-def option_jq_filter() -> Callable[[T], T]:
+def option_jq_filter[T]() -> Callable[[T], T]:
     """Get parameter option for jq filter."""
     return option(
         "--jq-filter",
@@ -52,7 +46,7 @@ def option_jq_filter() -> Callable[[T], T]:
 
 
 @optional_brackets
-def option_data_model() -> Callable[[T], T]:
+def option_data_model[T]() -> Callable[[T], T]:
     """Get parameter option for data model."""
     return option(
         "--data-model",
@@ -62,7 +56,7 @@ def option_data_model() -> Callable[[T], T]:
 
 
 @optional_brackets
-def option_record_type() -> Callable[[T], T]:
+def option_record_type[T]() -> Callable[[T], T]:
     """Get parameter option for record type."""
     return option(
         "--record-type",
@@ -72,7 +66,7 @@ def option_record_type() -> Callable[[T], T]:
 
 
 @optional_brackets
-def option_identifier(
+def option_identifier[T](
     required: bool = True,  # noqa: FBT001, FBT002
 ) -> Callable[[T], T]:
     """Get parameter options for metadata identifier.
@@ -90,7 +84,7 @@ def option_identifier(
 
 # TODO. rename to option_pid
 @optional_brackets
-def option_pid_identifier(
+def option_pid_identifier[T](
     required: bool = True,  # noqa: FBT001, FBT002
 ) -> Callable[[T], T]:
     """Get parameter options for metadata identifier.
@@ -108,7 +102,7 @@ def option_pid_identifier(
 
 # TODO: rename to option_id, refactore to true concept of the used id
 @optional_brackets
-def option_pid(
+def option_pid[T](
     required: bool = True,  # noqa: FBT001, FBT002
 ) -> Callable[[T], T]:
     """Get parameter options for record PID.
@@ -125,7 +119,7 @@ def option_pid(
 
 
 @optional_brackets
-def option_input_file(
+def option_input_file[T](
     required: bool = True,  # noqa: FBT001, FBT002
     type_: File = None,
     name: str = "input_file",
@@ -148,7 +142,7 @@ def option_input_file(
 
 
 @optional_brackets
-def option_output_file(
+def option_output_file[T](
     required: bool = True,  # noqa: FBT001, FBT002
 ) -> Callable[[T], T]:
     """Get parameter options for output file.

@@ -1,28 +1,64 @@
+# SPDX-FileCopyrightText: 2021-2026 Graz University of Technology.
+# SPDX-License-Identifier: MIT
+
+[project]
+name = "repository-cli"
+description = "CLI utilities for TU Graz Repository."
+readme = "README.md"
+license = "MIT"
+authors = [{ name = "Graz University of Technology." }]
+keywords = ["cli", "invenio", "repository"]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Programming Language :: Python :: 3.14",
+]
+urls = { Repository = "https://github.com/inveniosoftware/repository-cli" }
+dependencies = [
+  "click>=8.0.0",
+  "invenio-rdm-records>=24.0.0",
+  "invenio-records-lom>=0.20",
+  "invenio-records-marc21>=0.28.0",
+  "jq>=1.4.0",
+  "tabulate>=0.9.0",
+]
+dynamic = ["version"]
+
+[project.entry-points."flask.commands"]
+repository = "repository_cli.cli:utilities"
+
+[project.entry-points."invenio_base.apps"]
+repository_cli = "repository_cli:RepositoryCli"
+
+[project.optional-dependencies]
+tests = [
+  "pytest-invenio>=4.0.0",
+  "pytest-black>=0.6.0",
+  "invenio-app>=3.0.0",
+  "invenio-search[opensearch2]>=3.0.0",
+  "invenio-cache>=3.0.0",
+  "ruff>=0.5.3",
+]
+
 [build-system]
-requires = ["setuptools", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
-[tool.ruff.lint]
-select = ["ALL"]
-ignore = [
-  "D203", "D211", "D212", "D213",
-  "E501",
-  "FA100", "FA102",
-  "FIX002",
-  "INP001",
-  "N999",
-  "PERF203",
-  "PLR0913",
-  "S101",
-  "TD002", "TD003",
-  "TID252",
-  "UP009",
+[tool.hatch.version]
+path = "repository_cli/__init__.py"
+
+[tool.hatch.build]
+exclude = [
+  ".github/**",
+  "tests/**",
+  ".gitignore",
+  "run-tests.sh",
 ]
 
-[tool.ruff.lint.per-file-ignores]
-"tests/**.py" = [
-  "ANN201",
-]
+[tool.hatch.build.targets.sdist]
+include = ["/repository_cli"]
+
+[tool.isort]
+profile = "black"
 
 [tool.mypy]
 extra_checks = true
@@ -32,3 +68,40 @@ strict_equality = true
 follow_untyped_imports = true
 disallow_any_generics = false
 python_executable = ".venv/bin/python"
+
+[tool.pytest.ini_options]
+addopts = "--black --cov=repository_cli --cov-report=term-missing"
+testpaths = "tests repository_cli"
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+  "BLE001",
+  "D203",
+  "D211",
+  "D212",
+  "D213",
+  "D401",
+  "E501",
+  "FA100",
+  "FA102",
+  "FIX002",
+  "INP001",
+  "N999",
+  "PERF203",
+  "PLR0913",
+  "RUF010",
+  "S101",
+  "TD002",
+  "TD003",
+  "TID252",
+  "UP009",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**.py" = [
+  "ANN201",
+]
+
+[tool.ruff.lint.flake8-copyright]
+notice-rgx = "(?i)# SPDX-FileCopyrightText:\\s\\d{4}(-(\\d{4}|present))*"

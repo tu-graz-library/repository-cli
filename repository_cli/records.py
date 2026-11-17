@@ -1,9 +1,5 @@
-# -*- coding: utf-8 -*-
-#
-# Copyright (C) 2021-2026 Graz University of Technology.
-#
-# repository-cli is free software; you can redistribute it and/or modify it
-# under the terms of the MIT License; see LICENSE file for more details.
+# SPDX-FileCopyrightText: 2021-2026 Graz University of Technology.
+# SPDX-License-Identifier: MIT
 
 """Management commands for records."""
 
@@ -325,7 +321,7 @@ def replace_pid(pid: str, pid_identifier: str, data_model: str) -> None:
     old_data = service.read(id_=pid, identity=identity).data.copy()
     new_data = old_data.copy()
     pids = new_data.get("pids", {})
-    pid_key = list(pid_identifier.keys())[0]
+    pid_key = list(pid_identifier.keys())[0]  # noqa: RUF015
 
     if pids.get(pid_key, None) is None:
         secho(f"'{pid}' does not have pid identifier '{pid_key}'", fg=Color.warning)
@@ -348,14 +344,13 @@ def replace_pid(pid: str, pid_identifier: str, data_model: str) -> None:
 @option("--scheme", type=STRING, required=True, default="doi")
 @option_pid(required=False)
 @with_appcontext
-def update_remote_pid(data_model: str, scheme: str, pid: str = None) -> None:
+def update_remote_pid(data_model: str, scheme: str, pid: str | None = None) -> None:
     """Update remote url.
 
     example call:
        invenio repository records pids update-remote-pid --data-model marc21 --schema doi
        invenio repository records pids update-remote-pid --data-model marc21 --schema doi --pid custo-mpid0
     """
-
     api = get_records_api(data_model)
     register_or_update_pid = get_register_or_update_pid_task(data_model)
 
@@ -365,8 +360,8 @@ def update_remote_pid(data_model: str, scheme: str, pid: str = None) -> None:
         records = api.model_cls.query.all()
         pids = [rec.data["id"] for rec in records]
 
-    for pid in pids:
-        register_or_update_pid.delay(pid, scheme)
+    for p in pids:
+        register_or_update_pid.delay(p, scheme)
 
 
 @group_records.group("identifiers")
@@ -552,7 +547,7 @@ def replace_file(
         obj = files[filename]
     except KeyError:
         if override_name_match_check and len(files) == 1:
-            filename = list(files)[0]
+            filename = list(files)[0]  # noqa: RUF015
             obj = files[filename]
         elif len(files) > 1:
             msg = "There is more than 1 file and no matching found, specify filename."
@@ -761,7 +756,7 @@ def ip_network(record_ids: list, record_id: str, data_model: str) -> None:
 @option_pid_identifier
 @option_data_model
 @with_appcontext
-def add_pid_to_record(pid: str, pid_identifier: str, data_model: str):
+def add_pid_to_record(pid: str, pid_identifier: str, data_model: str) -> None:
     """Add new persistent identifier to record.
 
     example call:
