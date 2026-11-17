@@ -1,13 +1,7 @@
-# -*- coding: utf-8 -*-
-#
-# Copyright (C) 2021-2023 Graz University of Technology.
-#
-# repository-cli is free software; you can redistribute it and/or modify it
-# under the terms of the MIT License; see LICENSE file for more details.
+# SPDX-FileCopyrightText: 2021-2026 Graz University of Technology.
+# SPDX-License-Identifier: MIT
 
 """Commonly used param types for CLI commands."""
-
-from __future__ import annotations
 
 import sys
 from json import JSONDecodeError, load, loads

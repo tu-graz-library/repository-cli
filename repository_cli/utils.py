@@ -1,9 +1,5 @@
-# -*- coding: utf-8 -*-
-#
-# Copyright (C) 2021-2026 Graz University of Technology.
-#
-# repository-cli is free software; you can redistribute it and/or modify it
-# under the terms of the MIT License; see LICENSE file for more details.
+# SPDX-FileCopyrightText: 2021-2026 Graz University of Technology.
+# SPDX-License-Identifier: MIT
 
 """Commonly used utility functions."""
 
@@ -97,7 +93,7 @@ def get_record_or_draft(
     identity: Identity,
 ) -> Draft | Record:
     """Get record or draft."""
-    return get_record_item(service, pid, identity)._record
+    return get_record_item(service, pid, identity)._record  # noqa: SLF001
 
 
 def get_records_service(data_model: str = "rdm") -> RecordService:

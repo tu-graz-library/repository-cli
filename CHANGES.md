@@ -1,13 +1,11 @@
-..
-    Copyright (C) 2021-2026 Graz University of Technology.
+<!--
+SPDX-FileCopyrightText: 2021-2026 Graz University of Technology.
+SPDX-License-Identifier: MIT
+-->
 
-    repository-cli is free software; you can redistribute it and/or modify
-    it under the terms of the MIT License; see LICENSE file for more details.
+# Changes
 
-Changes
-=======
-
-Version v0.13.0 (released 2026-02-08)
+## Version v0.13.0 (released 2026-02-08)
 
 - chore(black): update formatting to >= 26.0
 - chore(fix): maybe click change
@@ -21,40 +19,35 @@ Version v0.13.0 (released 2026-02-08)
 - setup: add python3.13 support
 - setup: add pyproject.toml
 
-Version v0.12.2 (release 2024-07-19)
+## Version v0.12.2 (release 2024-07-19)
 
 - setup: move to support python3.12 only
 - cli: add two commands
 - fix: not catched exception
 
-
-Version v0.12.1 (release 2024-02-19)
+## Version v0.12.1 (release 2024-02-19)
 
 - fix: example command for update-remote-pid
 - records: add set embargo until
 - setup: add python3.11 support
 - black: fix formating v24.1.1
 
-
-Version v0.12.0 (release 2024-01-25)
+## Version v0.12.0 (release 2024-01-25)
 
 - pids: add command update-remote-pid
 - options: make the data_model option required
 - fix: copy paste error
 
-
-Version v0.11.1 (release 2023-11-10)
+## Version v0.11.1 (release 2023-11-10)
 
 - cli: tmp fix, this should be revisited
 - setup: increase rdm version
 
-
-Version v0.11.0 (release 2023-11-03)
+## Version v0.11.0 (release 2023-11-03)
 
 - add command for adding persistent identifiers
 
-
-Version v0.10.0 (release 2023-09-12)
+## Version v0.10.0 (release 2023-09-12)
 
 - add way to generate commands that update JSON
 - refactor: delete-draft
@@ -64,28 +57,24 @@ Version v0.10.0 (release 2023-09-12)
 - fix: can't return draft without existing record
 - fix: cli delete-draft
 
-
-Version v0.9.0 (release 2023-07-31)
+## Version v0.9.0 (release 2023-07-31)
 
 - records: add data_model parameter
 - typing: use new optional syntax
 - service: add lom service
 - global: update ruff
 
-
-Version v0.8.1 (release 2023-06-07)
+## Version v0.8.1 (release 2023-06-07)
 
 - refactor: move json validation into JSON
 - refactor: get_record_or_draft
 
-
-Version v0.8.0 (release 2023-06-01)
+## Version v0.8.0 (release 2023-06-01)
 
 - records: make arguments ready for drafts too
 - records: add argument delete-file
 
-
-Version v0.7.0 (release 2023-05-30)
+## Version v0.7.0 (release 2023-05-30)
 
 - test: fix and pin due flask-babelex
 - records: separate replace-file from add-file
@@ -93,21 +82,19 @@ Version v0.7.0 (release 2023-05-30)
 - types: otherwise it is not working with 3.9
 - global: migrate to ruff
 
-
-Version v0.6.0 (release 2023-05-01)
+## Version v0.6.0 (release 2023-05-01)
 
 - cli: add command publish
 - cli: add record_id parameter to modify-access
 
 
-Version v0.5.0 (release 2023-03-08)
+## Version v0.5.0 (release 2023-03-08)
 
 - setup: remove python 3.11
 - records: add command modify-access
 - records: change add-file command to common pattern
 
-
-Version v0.4.0 (release 2023-02-09)
+## Version v0.4.0 (release 2023-02-09)
 
 - setup: add pylint and bandit
 - feature: add parameter add-metadata-to-records
@@ -119,13 +106,11 @@ Version v0.4.0 (release 2023-02-09)
 - refactor: make count datamodel independent
 - refactor: removed directory cli
 
-
-Version v0.3.1 (release 2023-02-01)
+## Version v0.3.1 (release 2023-02-01)
 
 - setup: move jq and tabulate to install require
 
-
-Version v0.3.0 (release 2023-01-31)
+## Version v0.3.0 (release 2023-01-31)
 
 - improve: add explicit raised RuntimeError
 - record: add parameters to list_records
@@ -134,8 +119,7 @@ Version v0.3.0 (release 2023-01-31)
 - refactor
 - fix: tests
 
-
-Version v0.2.0 (release 2023-01-20)
+## Version v0.2.0 (release 2023-01-20)
 
 - add files enabled check
 - add data_model param and marc21 service
@@ -154,7 +138,6 @@ Version v0.2.0 (release 2023-01-20)
 - global: refactor comments/strings.
 - cli: show number of rdmrecords.
 
-
-Version 0.1.0 (released TBD)
+## Version 0.1.0 (released TBD)
 
 - Initial public release.
