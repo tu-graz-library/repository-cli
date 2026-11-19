@@ -5,6 +5,11 @@ SPDX-License-Identifier: MIT
 
 # Changes
 
+## Version v0.13.1 (released 2026-11-19)
+
+- fix(pids): allow addition of pids on drafts
+- chore: refactor
+
 ## Version v0.13.0 (released 2026-02-08)
 
 - chore(black): update formatting to >= 26.0
