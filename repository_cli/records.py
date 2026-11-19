@@ -771,10 +771,6 @@ def add_pid_to_record(pid: str, pid_identifier: str, data_model: str) -> None:
     service = get_records_service(data_model)
     identity = get_identity(permission_name="system_process", role_name="admin")
 
-    if not exists_record(service, pid, identity):
-        secho(f"'{pid}' does not exist or was deleted", fg=Color.error)
-        return
-
     # try to destructure passed-in `pid-identfier`
     try:
         pid_type = next(iter(pid_identifier.keys()))  # e.g. 'doi', 'oai', 'moodle'
